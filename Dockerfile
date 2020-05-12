@@ -1,6 +1,6 @@
 FROM segment/chamber:2 AS chamber
-FROM ubuntu:16.04
-FROM node:10.15.3
+FROM circleci/mongo:xenial
+FROM circleci/node:10.15.3-browsers
 COPY --from=chamber /chamber /bin/chamber
 COPY .terraform-version /.terraform-version
 RUN apt-get update;
