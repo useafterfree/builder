@@ -1,8 +1,7 @@
 FROM segment/chamber:2 AS chamber
 FROM circleci/mongo:xenial
 FROM circleci/node:10.15.3-browsers
-FROM docker:17.05.0-ce-git
- 
+
 COPY --from=chamber /chamber /bin/chamber
 COPY .terraform-version /.terraform-version
 USER root
@@ -27,9 +26,11 @@ ENV PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
 # RUN brew install aws-vault
 # RUN aws-vault; exit 0;
 
-RUN brew install tfenv
-RUN brew install jq
+RUN brew install tfenv dvm jq
 USER root
+RUN echo "[ -f /home/linuxbrew/.linuxbrew/opt/dvm/dvm.sh ] && . /home/linuxbrew/.linuxbrew/opt/dvm/dvm.sh" >> /etc/profile.d/dvm
+ENV DOCKER_VERSION=18.09.6
+RUN /bin/bash -c '. /home/linuxbrew/.linuxbrew/opt/dvm/dvm.sh; dvm install'
 RUN tfenv install
 RUN curl -sO https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && pip3 install awscli --upgrade
 USER docker
@@ -37,3 +38,4 @@ RUN terraform; exit 0;
 RUN aws; exit 0;
 RUN chamber; exit 0
 RUN yarn --version; exit 0
+RUN docker --version; exit 0
