@@ -20,8 +20,8 @@ USER docker
 
 RUN /bin/bash -c  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 SHELL ["/bin/bash", "-c"]
-RUN echo 'eval $(/home/docker/.linuxbrew/bin/brew shellenv)' >> /home/docker/.profile
-ENV PATH="/home/docker/.linuxbrew/bin:${PATH}"
+RUN echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/docker/.profile
+ENV PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
 # RUN brew install aws-vault
 # RUN aws-vault; exit 0;
 
