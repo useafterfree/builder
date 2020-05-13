@@ -1,6 +1,8 @@
 FROM segment/chamber:2 AS chamber
 FROM circleci/mongo:xenial
 FROM circleci/node:10.15.3-browsers
+FROM docker:17.05.0-ce-git
+ 
 COPY --from=chamber /chamber /bin/chamber
 COPY .terraform-version /.terraform-version
 USER root
