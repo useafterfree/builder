@@ -26,8 +26,10 @@ ENV PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
 # RUN brew install aws-vault
 # RUN aws-vault; exit 0;
 
-RUN brew install tfenv dvm jq
+RUN brew install tfenv dvm jq yarn
 USER root
+
+RUN curl -o- -L https://yarnpkg.com/install.sh | sudo bash -s -- --version 1.22.4
 RUN echo "[ -f /home/linuxbrew/.linuxbrew/opt/dvm/dvm.sh ] && . /home/linuxbrew/.linuxbrew/opt/dvm/dvm.sh" >> /etc/profile.d/dvm
 ENV DOCKER_VERSION=18.09.6
 RUN /bin/bash -c '. /home/linuxbrew/.linuxbrew/opt/dvm/dvm.sh; dvm install'
