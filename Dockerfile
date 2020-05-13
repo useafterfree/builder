@@ -5,10 +5,18 @@ COPY --from=chamber /chamber /bin/chamber
 COPY .terraform-version /.terraform-version
 USER root
 RUN apt-get update;
-RUN apt-get -y install curl git sudo build-essential python3
+RUN apt-get -y install curl git sudo build-essential python3 locales
 RUN adduser docker
 RUN usermod -aG sudo docker
+
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
 USER docker
+
 RUN /bin/bash -c  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 SHELL ["/bin/bash", "-c"]
 RUN echo 'eval $(/home/docker/.linuxbrew/bin/brew shellenv)' >> /home/docker/.profile
