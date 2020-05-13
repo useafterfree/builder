@@ -34,4 +34,4 @@ USER docker
 RUN terraform; exit 0;
 RUN aws; exit 0;
 RUN chamber; exit 0
-RUN yarn; exit 0
+RUN yarn --version; exit 0
