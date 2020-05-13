@@ -6,6 +6,7 @@ COPY .terraform-version /.terraform-version
 USER root
 RUN apt-get update;
 RUN apt-get -y install curl git sudo build-essential python3 locales
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers ## So we can sudo
 RUN adduser docker
 RUN usermod -aG sudo docker
 
