@@ -7,7 +7,7 @@ USER root
 RUN apt-get update;
 RUN apt-get -y install curl git sudo build-essential python3 locales gnupg apt-transport-https ca-certificates libssl-dev
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers ## So we can sudo
-RUN adduser circleci
+# RUN adduser circleci
 RUN usermod -aG sudo circleci
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
