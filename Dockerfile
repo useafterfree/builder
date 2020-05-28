@@ -1,12 +1,11 @@
 FROM segment/chamber:2 AS chamber
-FROM circleci/mongo:xenial
 FROM circleci/node:10.15.3-browsers
 
 COPY --from=chamber /chamber /bin/chamber
 COPY .terraform-version /.terraform-version
 USER root
 RUN apt-get update;
-RUN apt-get -y install curl git sudo build-essential python3 locales
+RUN apt-get -y install curl git sudo build-essential python3 locales gnupg apt-transport-https ca-certificates libssl-dev
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers ## So we can sudo
 RUN adduser docker
 RUN usermod -aG sudo docker
@@ -28,6 +27,13 @@ ENV PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
 
 RUN brew install tfenv dvm jq yarn
 USER root
+
+RUN curl https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
+RUN echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.2 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+RUN apt-get update;
+RUN apt-get install -y mongodb-org
+RUN mkdir -p /data/db
+RUN chmod 777 /data/db
 
 RUN curl -o- -L https://yarnpkg.com/install.sh | sudo bash -s -- --version 1.22.4
 RUN echo "[ -f /home/linuxbrew/.linuxbrew/opt/dvm/dvm.sh ] && . /home/linuxbrew/.linuxbrew/opt/dvm/dvm.sh" >> /etc/profile.d/dvm
