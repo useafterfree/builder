@@ -22,8 +22,6 @@ RUN /bin/bash -c  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/insta
 SHELL ["/bin/bash", "-c"]
 RUN echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/circleci/.profile
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
-# RUN brew install aws-vault
-# RUN aws-vault; exit 0;
 
 RUN brew install tfenv dvm jq yarn
 USER root
